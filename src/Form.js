@@ -58,7 +58,7 @@ export default function Form(props) {
      </label>
 
         <label>Email
- 
+
           <input
             type='email'
             name='email'
@@ -94,4 +94,3 @@ export default function Form(props) {
     </form>
   )
 }
-

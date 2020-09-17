@@ -1,7 +1,7 @@
 import React from 'react'
 
-export default function User(props) {
-  const { details } = props
+export default function User({details}) {
+  // const { details } = props
 
   if (!details) {
     return <h3>Working on fetching your Team Member&apos;s details...</h3>

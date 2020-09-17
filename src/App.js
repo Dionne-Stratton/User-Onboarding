@@ -1,22 +1,10 @@
 import './App.css';
-import { v4 as uuid } from 'uuid'
 import Form from './Form'
 import React, { useState, useEffect } from 'react'
 import User from './User'
 import schema from './formSchema'
 import axios from 'axios'
 import * as yup from 'yup'
-// 
-// const initialUserList = [
-//   {
-//     id: uuid(),
-//     name: 'Dionne',
-//     email: 'nunyabidness@gmail.com',
-//     password: '1214',
-//     terms: true,
-//   },
-
-// ]
 
 const initialFormValues = {
   name: '',
@@ -35,26 +23,28 @@ const initialUserList = []
 const initialDisabled = true
 
 export default function App() {
-  const [user, setUser] = useState(initialUserList)
+  const [users, setUsers] = useState(initialUserList)
   const [formValues, setFormValues] = useState(initialFormValues)
   const [formErrors, setFormErrors] = useState(initialFormErrors)
   const [disabled, setDisabled] = useState(initialDisabled)
 
-  const getUser = () => {
+  const [post, setPost] = useState([])
+  // const getUsers = () => {
 
-    axios.get('https://reqres.in/api/users')
-      .then(res => {
-        setUser(res.data.data)
-      })
-      .catch(err => {
-        console.log(err)
-      })
-  }
+  //   axios.get('https://reqres.in/api/users')
+  //     .then(res => {
+  //       setUsers(res.data.data)
+  //     })
+  //     .catch(err => {
+  //       console.log(err)
+  //     })
+  // }
 
   const postNewUser = newUser => {
     axios.post("https://reqres.in/api/users", newUser)
       .then(res => {
-        setUser(res.data)
+        setUsers(res.data)
+        setPost(res.data)
         setFormValues(initialFormValues)
       })
       .catch(err => {
@@ -64,27 +54,27 @@ export default function App() {
       })
   }
 
- const validate = (name, value) => {
-   yup
-     .reach(schema, name)
-     // we can then run validate using the value
-     .validate(value)
-     // if the validation is successful, we can clear the error message
-     .then(valid => {
-       setFormErrors({
-         ...formErrors,
-         [name]: ""
-       })
-     })
-     /* if the validation is unsuccessful, we can set the error message to the message 
-       returned from yup (that we created in our schema) */
-     .catch(err => {
-       setFormErrors({
-         ...formErrors,
-         [name]: err.errors[0]
-       });
-     });
- }
+  const validate = (name, value) => {
+    yup
+      .reach(schema, name)
+      // we can then run validate using the value
+      .validate(value)
+      // if the validation is successful, we can clear the error message
+      .then(valid => {
+        setFormErrors({
+          ...formErrors,
+          [name]: ""
+        })
+      })
+      /* if the validation is unsuccessful, we can set the error message to the message 
+        returned from yup (that we created in our schema) */
+      .catch(err => {
+        setFormErrors({
+          ...formErrors,
+          [name]: err.errors[0]
+        });
+      });
+  }
 
   const inputChange = (name, value) => {
     // 🔥 STEP 10- RUN VALIDATION WITH YUP
@@ -105,9 +95,9 @@ export default function App() {
     postNewUser(newUser)
   }
 
-    useEffect(() => {
-      getUser()
-    }, [])
+  // useEffect(() => {
+  //   getUser()
+  // }, [])
 
   useEffect(() => {
     schema.isValid(formValues)
@@ -128,13 +118,14 @@ export default function App() {
         formValues={formValues}
         postNewUser={postNewUser}
       />
-      {user.map((newUser, item) => {
+      {/* {user.map((newUser, item) => {
         return (
           <User key={item} details={newUser} />
         )
-      })
+      }) */}
       }
-    {/* {console.log(user)} */}
+      {/* {console.log(user)} */}
+      <pre>{JSON.stringify(post, null, 2)}</pre>
     </div>
   )
 }
