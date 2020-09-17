@@ -28,12 +28,9 @@ export default function Form(props) {
     <form className='form container' onSubmit={onSubmit}>
       <div className='form-group submit'>
         <h2>Add a User</h2>
-
-        {/* 🔥 DISABLE THE BUTTON */}
         <button disabled={disabled}>submit</button>
 
         <div className='errors'>
-          {/* 🔥 RENDER THE VALIDATION ERRORS HERE */}
           <div>{errors.name}</div>
           <div>{errors.email}</div>
           <div>{errors.password}</div>
@@ -54,7 +51,7 @@ export default function Form(props) {
             placeholder='type your name'
             maxLength='30'
           />
-        {/* {errors.name.length > 0 ? <p>{errors.name}</p> : null}   */}
+        {errors.name.length > 0 ? <p>{errors.name}</p> : null}  
      </label>
 
         <label>Email
